@@ -10,4 +10,83 @@
 
 # navigate to file paths by calling keyword
 
-# 
+#
+echo Hello World
+
+
+DEFAULT_SHORTCUT="/01_code/"
+
+
+# |--------------------------------|
+# |        Handle Arguments        |
+# |--------------------------------|
+
+
+
+# not sure if a while loop is necessary,
+
+# maybe dontuse it
+
+
+
+#   default values
+# ------------------
+
+shortcut=$DEFAULT_SHORTCUT
+command=nav
+
+
+#   arguments
+# -------------
+
+while [[ $# -gt 0 ]]
+do case $1 in
+
+  -s | --save | save )
+  command=save
+  shortcut="$2"
+  directory_path=`PWD`
+  shift;;
+
+  -ud | --updatedefault | default )
+# save the $2 arg as the default library
+  ;;
+
+
+
+  esac
+  shift
+done
+
+
+# |---------------------------------------------|
+# |          navigate to saved directory        |
+# |---------------------------------------------|
+
+if [[ $command == nav ]]
+then
+  #   pull path from file
+  # -----------------------
+
+
+
+  dir_path=
+
+  cd $dir_path
+fi
+
+
+# |-------------------------------------------|
+# |        save directory path to file        |
+# |-------------------------------------------|
+
+
+if [[ $command == save ]]
+then
+
+
+# echo the shortcut : filepath to the storage folder
+
+
+
+fi
