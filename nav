@@ -44,14 +44,13 @@ shortcut="$2"
 shift
 ;;
 
+*)
+shortcut="$1"
+;;
+
 esac
 shift
 done
-
-if [[ $shortcut == "" ]]
-then
-  shortcut=$1
-fi
 
 #   delete
 # ----------
