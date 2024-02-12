@@ -2,7 +2,8 @@
 
 # nav commandline tool
 
-### Navigate the Terminal quickly with saved shortcuts!
+
+Navigate the Terminal quickly with saved shortcuts!
 
 ## Creating a shortcut
 
@@ -15,6 +16,7 @@ the short, long, and plaintext options are interchangeable as argument names
 _-s | --save | save_
 
 - the "save" argument flag is optional if only passing the name for the new shortcut
+- the save argument flag is REQUIRED if also passing a path
 
 _-d | --delete | delete_
 
