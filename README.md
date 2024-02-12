@@ -1,8 +1,6 @@
-# |------------------------------------|
 
-# | nav commandline tool |
 
-# |------------------------------------|
+# nav commandline tool
 
 ## Navigate the Terminal quickly with saved shortcuts!
 
