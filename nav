@@ -62,6 +62,7 @@ then
   then
     rm $files$shortcut.nav
     echo "[nav] $shortcut deleted"
+    exit
   fi
 fi
 
