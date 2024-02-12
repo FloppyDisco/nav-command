@@ -1,9 +1,8 @@
-
-
-# nav commandline tool
+# NAV commandline tool
 
 
 Navigate the Terminal quickly with saved shortcuts!
+  - the nav command uses a suffix alias to source files that contain the saved directory
 
 ## Creating a shortcut
 
@@ -16,7 +15,7 @@ the short, long, and plaintext options are interchangeable as argument names
 _-s | --save | save_
 
 - the "save" argument flag is optional if only passing the name for the new shortcut
-- the save argument flag is REQUIRED if also passing a path
+- the "save" argument flag is REQUIRED if also passing a path
 
 _-d | --delete | delete_
 
@@ -58,3 +57,26 @@ simply type the shortcut name followed by ".nav"
 newShortcut.nav
 
 ```
+
+
+
+## setup
+
+to install the NAV command you will need to:
+1. Fork and clone the nav-command repo to your machine
+
+```
+git clone "https://gitlab.com/your/fork/of/nav-command/
+```
+
+2. run the install.sh file with the zsh shell
+```
+zsh ./nav-command/install.sh
+```
+
+3. the ".zshrc" file will open please verify that it now contains the following:
+  - export PATH="/Users/profile-name/filepath/to/nav-command/:$PATH"
+  - alias -s nav=source
+
+4. the nav file will open in VS Code. please verify that the files variable has been set to the correct file path where nav-command is installed
+  - this filepath must match the filepath exported inside the .zshrc file.
