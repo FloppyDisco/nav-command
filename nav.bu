@@ -8,7 +8,7 @@
 #   Check that "files" = the filepath where nav-command is stored on your machine
 #    - it should start with your home folder and end in /nav-command/
 # ---------------------------------------------------------------------------------
-files=/Users/username/file/path/to/nav-command/
+files=/Users/joshuapaul/01_code/04_scripts/nav-command/
 # ---------------------------------------------------------------------------------
 
 
@@ -16,6 +16,7 @@ files=/Users/username/file/path/to/nav-command/
 # ------------------
 
 path=`PWD`
+command="save"
 shortcut=""
 
 # |---------------------------|
@@ -25,37 +26,24 @@ shortcut=""
 while [[ $# -gt 0 ]]
 do case $1 in
 
-#   open
-# --------
 -o|--open|open)
-code $files
+command="open"
 ;;
 
-#   delete
-# ----------
 -d|--delete|delete)
-  shortcut="$2"
-  if [ -f $files$shortcut.nav ]
-  then
-    rm $files$shortcut.nav
-    echo "[nav] $shortcut deleted"
-  fi
+command="delete"
+shortcut="$2"
+shift
 ;;
 
-#   path
-# --------
 -p|--path|path)
-  # change logic to check if path starts with .
-  # change logic to check if path starts with ~
 path="$2"
 shift
 ;;
 
-#   save
-# ---------
 -s|--save|save)
-  shortcut="$2"
-  shift
+shortcut="$2"
+shift
 ;;
 
 esac
@@ -67,8 +55,32 @@ then
   shortcut=$1
 fi
 
+#   delete
+# ----------
+
+if [ -f $files$shortcut.nav ]
+then
+  rm $files$shortcut.nav
+  echo "[nav] $shortcut deleted"
+fi
+
+#   open
+# --------
+
+if [[ $command == open ]]
+then
+  echo opening nav command...
+  code $files
+  exit
+fi
+
+
 # |------------------------------------|
 # |        Create Shortcut File        |
 # |------------------------------------|
+
+# change logic to check if path starts with .
+# change logic to check if path starts with ~
+
 
 echo "cd $path" >> $files$shortcut.nav
