@@ -1,92 +1,71 @@
 #! /bin/zsh
 
-
 # |------------------------------------|
 # |        nav commandline tool        |
 # |------------------------------------|
 
-
-# store file paths to a hidden file with a key name
-
-# navigate to file paths by calling keyword
-
-#
-echo Hello World
-
-
-DEFAULT_SHORTCUT="/01_code/"
-
-
-# |--------------------------------|
-# |        Handle Arguments        |
-# |--------------------------------|
-
-
-
-# not sure if a while loop is necessary,
-
-# maybe dontuse it
-
-
-
 #   default values
 # ------------------
 
-shortcut=$DEFAULT_SHORTCUT
-command=nav
+files=/Users/joshuapaul/01_code/04_scripts/nav-command/
+path=`PWD`
+shortcut=""
 
-
-#   arguments
-# -------------
+# |---------------------------|
+# |        Handle Args        |
+# |---------------------------|
 
 while [[ $# -gt 0 ]]
 do case $1 in
 
-  -s | --save | save )
-  command=save
+#   open
+# --------
+
+-o|--open|open)
+code $files
+;;
+
+#   delete
+# ----------
+
+-d|--delete|delete)
   shortcut="$2"
-  directory_path=`PWD`
-  shift;;
+  if [ -f $files$shortcut.nav ]
+  then
+    rm $files$shortcut.nav
+    echo "[nav] $shortcut deleted"
+  fi
+;;
 
-  -ud | --updatedefault | default )
-# save the $2 arg as the default library
-  ;;
+#   path
+# --------
 
+-p|--path|path)
+  # change logic to check if path starts with .
+  # change logic to check if path starts with ~
+path="$2"
+shift
+;;
 
+#   save
+# ---------
 
-  esac
+-s|--save|save)
+  shortcut="$2"
   shift
+;;
+
+esac
+shift
 done
 
-
-# |---------------------------------------------|
-# |          navigate to saved directory        |
-# |---------------------------------------------|
-
-if [[ $command == nav ]]
+if [[ $shortcut == "" ]]
 then
-  #   pull path from file
-  # -----------------------
-
-
-
-  dir_path=
-
-  cd $dir_path
+  shortcut=$1
 fi
 
+# |------------------------------------|
+# |        Create Shortcut File        |
+# |------------------------------------|
 
-# |-------------------------------------------|
-# |        save directory path to file        |
-# |-------------------------------------------|
-
-
-if [[ $command == save ]]
-then
-
-
-# echo the shortcut : filepath to the storage folder
-
-
-
-fi
+echo "cd $path" >> $files$shortcut.nav
