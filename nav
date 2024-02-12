@@ -6,7 +6,7 @@
 #   Check that "files" = the filepath where nav-command is stored on your machine
 #    - it should start with your home folder and end in /nav-command/
 # ---------------------------------------------------------------------------------
-files=/Users/joshuapaul/01_code/04_scripts/nav-command/
+files=/Users/username/this/file/path/to/nav-command/
 # ---------------------------------------------------------------------------------
 
 
