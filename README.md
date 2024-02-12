@@ -2,7 +2,7 @@
 
 # nav commandline tool
 
-## Navigate the Terminal quickly with saved shortcuts!
+### Navigate the Terminal quickly with saved shortcuts!
 
 ## Creating a shortcut
 
