@@ -10,7 +10,7 @@
 
 ---
 
-## the short, long, and plaintext options are interchangeable as argument names
+the short, long, and plaintext options are interchangeable as argument names
 
 _-s | --save | save_
 
