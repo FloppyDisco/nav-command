@@ -77,6 +77,6 @@ to install the NAV command you will need to:
   - this filepath must match the filepath exported inside the .zshrc file.
   ```
   # ---------------------------------------------------------------------------------
-  files=/Users/profile-name/your/filepath/to/nav-command/
+  files=/Users/user-name/your/filepath/to/nav-command/
   # ---------------------------------------------------------------------------------
   ```

@@ -5,7 +5,7 @@
 
 #   verify files was succersfully set to your filepath
 # ------------------------------------------------------
-#     /Users/username/some/filepath/to/nav-command/
+#     /Users/user-name/some/filepath/to/nav-command/
 # ---------------------------------------------------------------------------------
 files=/Users/username/some/filepath/to/nav-command/
 # ---------------------------------------------------------------------------------
