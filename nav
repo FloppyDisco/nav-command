@@ -25,11 +25,12 @@ shortcut=""
 show_help() {
     echo "Usage: nav [options?][name]"
     echo "options:"
-    echo " > -s | --save   | save   [name]  - Save shortcut [name]"
-    echo " > -d | --delete | delete [name]  - Delete shortcut [name]"
-    echo " > -p | --path   | path   [path]  - Set [filepath] for the shortcut"
-    echo " > -o | --open   | open           - Open nav-command directory"
-    echo " > -h | --help   | help           - Display help message"
+    echo " ⨳ -s|--save  |save   [name] - Save shortcut [name]"
+    echo " ⨳ -d|--delete|delete [name] - Delete shortcut [name]"
+    echo " ⨳ -p|--path  |path   [path] - Set [filepath] for the shortcut"
+    echo " ⨳ -l|--list  |list          - Lists all shortcuts"
+    echo " ⨳ -o|--open  |open          - Open nav-command directory"
+    echo " ⨳ -h|--help  |help          - Display help message"
     echo
     echo "if [name] is the only argument passed, the default is to save the shortcut [name] with path=PWD"
     exit 0
