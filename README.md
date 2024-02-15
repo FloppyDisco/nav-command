@@ -15,6 +15,7 @@ Keyname Arguments
 | -s, --save,   save   [name] | Creates a new shortcut called [name] |
 | -d, --delete, delete [name] | Deletes the shortcut saved as [name] |
 | -p, --path,   path   [path] | Specifies the [path] to use for the new shortcut |
+| -l, --list,   list | Lists all saved shortcuts |
 | -h, --help,   help | Displays command usage information |
 | -o, --open,   open | Opens nav-command directory |
 
