@@ -9,8 +9,9 @@ Navigate the Terminal quickly with saved shortcuts!
 
 Keyname Arguments
   - the short, long, and plaintext argument names are interchangable
+
 | Command | Description |
-| :--- | :--- |
+|:-----|:-----|
 | -s, --save, save [name] | Creates a new shortcut called [name].nav |
 | -d, --delete, delete [name] | Deletes the shortcut saved as [name].nav |
 | -p, --path, path [path] | Specifies the [path] to use for the new shortcut |
