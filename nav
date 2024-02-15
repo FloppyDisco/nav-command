@@ -32,7 +32,26 @@ show_help() {
     echo " > -h | --help   | help           - Display help message"
     echo
     echo "if [name] is the only argument passed, the default is to save the shortcut [name] with path=PWD"
+    exit 0
 }
+
+list_shortcuts() {
+  local files_exist=0
+  # Check if any shortcut files exist
+  ls -1 $files*.nav >/dev/null 2>&1 || files_exist=1
+
+  if [[ $files_exist -eq 0 ]]; then
+    echo
+    echo "  Here is a list of all your shortcuts:"
+    echo "----------------------------------------"
+    ls -1 $files*.nav | xargs -n1 basename -s .nav | sed "s~^~=> ~"
+  else
+    echo "No shortcuts found."
+  fi
+  exit 0
+}
+
+
 while [[ $# -gt 0 ]]
 do case $1 in
 
@@ -50,11 +69,7 @@ path="$2"
 shift;;
 
 -l | --list | list)
-  echo
-  echo "  here is a list of all your shortcuts"
-  echo "----------------------------------------"
-  ls -1 $files*.nav | xargs -n1 basename -s .nav | sed "s~^~=> ~"
-  exit 0;;
+  list_shortcuts;;
 
 -o | --open | open)
   echo opening nav command...
