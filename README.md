@@ -12,8 +12,8 @@ Keyname Arguments
 
 | Command | Description |
 |:----:|:-----|
-| -s, --save,   save   [name] | Creates a new shortcut called [name].nav |
-| -d, --delete, delete [name] | Deletes the shortcut saved as [name].nav |
+| -s, --save,   save   [name] | Creates a new shortcut called [name] |
+| -d, --delete, delete [name] | Deletes the shortcut saved as [name] |
 | -p, --path,   path   [path] | Specifies the [path] to use for the new shortcut |
 | -h, --help,   help | Displays command usage information |
 | -o, --open,   open | Opens nav-command directory |
