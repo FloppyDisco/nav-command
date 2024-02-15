@@ -35,8 +35,8 @@ show_help() {
 while [[ $# -gt 0 ]]
 do case $1 in
 
--o | --open | open)
-command="open"
+-s | --save | save)
+shortcut="$2"
 shift;;
 
 -d | --delete | delete)
@@ -48,18 +48,18 @@ shift;;
 path="$2"
 shift;;
 
--s | --save | save)
-shortcut="$2"
+-l | --list | list)
+command="list"
+shift;;
+
+-o | --open | open)
+command="open"
 shift;;
 
 -h | --help | help )
 show_help;;
 
 * )
-shortcut="$1"
-;;
-
-*)
 shortcut="$1"
 ;;
 
@@ -70,13 +70,12 @@ done
 #   delete
 # ----------
 
-if [[ $command == delete ]]
-then
+if [[ $command == delete ]]; then
   if [ -f $files$shortcut.nav ]
   then
     rm $files$shortcut.nav
     echo "[nav] $shortcut deleted"
-    exit
+    exit 0
   else
     echo $shortcut does not exist
   fi
@@ -85,14 +84,16 @@ fi
 #   open
 # --------
 
-if [[ $command == open ]]
-then
+if [[ $command == open ]]; then
   echo opening nav command...
   code $files
-  exit
+  exit 0
 fi
 
-
+if [[ $command == list ]]; then
+  ls -1 "$path*(.nav)"
+  exit 0
+  fi
 #   Save
 # --------
 
