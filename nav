@@ -21,27 +21,42 @@ shortcut=""
 # |        Handle Args        |
 # |---------------------------|
 
+
+show_help() {
+    echo "Usage: nav [options?][name]"
+    echo "Options:"
+    echo " > -s | --save   | save   [name]  - Save shortcut [name]"
+    echo " > -d | --delete | delete [name]  - Delete shortcut [name]"
+    echo " > -p | --path   | path   [path]  - Set [filepath] for the shortcut"
+    echo " > -o | --open   | open           - Open nav-command directory"
+    echo " > -h | --help   | help           - Display help message"
+    echo
+    echo "if [name] is the only argument passed, the default is to save the shortcut [name] with path=PWD"
+}
 while [[ $# -gt 0 ]]
 do case $1 in
 
--o|--open|open)
+-o | --open | open)
 command="open"
 shift;;
 
--d|--delete|delete)
+-d | --delete | delete)
 command="delete"
 shortcut="$2"
 shift;;
 
--p|--path|path)
+-p | --path | path)
 path="$2"
 shift;;
 
--s|--save|save)
+-s | --save | save)
 shortcut="$2"
 shift;;
 
-*)
+-h | --help | help )
+show_help;;
+
+* )
 shortcut="$1"
 ;;
 
