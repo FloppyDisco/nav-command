@@ -24,7 +24,7 @@ shortcut=""
 
 show_help() {
     echo "Usage: nav [options?][name]"
-    echo "Options:"
+    echo "options:"
     echo " > -s | --save   | save   [name]  - Save shortcut [name]"
     echo " > -d | --delete | delete [name]  - Delete shortcut [name]"
     echo " > -p | --path   | path   [path]  - Set [filepath] for the shortcut"
