@@ -26,23 +26,20 @@ do case $1 in
 
 -o|--open|open)
 command="open"
-;;
+shift;;
 
 -d|--delete|delete)
 command="delete"
 shortcut="$2"
-shift
-;;
+shift;;
 
 -p|--path|path)
 path="$2"
-shift
-;;
+shift;;
 
 -s|--save|save)
 shortcut="$2"
-shift
-;;
+shift;;
 
 *)
 shortcut="$1"
@@ -62,6 +59,8 @@ then
     rm $files$shortcut.nav
     echo "[nav] $shortcut deleted"
     exit
+  else
+    echo $shortcut does not exist
   fi
 fi
 
