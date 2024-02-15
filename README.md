@@ -56,7 +56,7 @@ newShortcut.nav
 to install the NAV command you will need to:
 1. Fork and clone the nav-command repo to your machine
   - nav-command does not need to be in your home directory
-  - cd into the directory where you would like the command files to be stored
+  - cd into the directory where you would like the nav-command files to be stored
   ```
   git clone "https://gitlab.com/your/fork/of/nav-command/
   ```
