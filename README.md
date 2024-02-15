@@ -10,7 +10,7 @@ Navigate the Terminal quickly with saved shortcuts!
 Keyname Arguments
   - the short, long, and plaintext argument names are interchangable
 
-| Command ||| Description |
+| Command |||| Description |
 |:----:|:----:|:----:|:----:|:-----|
 | -s | --save   | save   | [name] | Creates a new shortcut called [name].nav |
 | -d | --delete | delete | [name] | Deletes the shortcut saved as [name].nav |
