@@ -2,32 +2,20 @@
 
 
 Navigate the Terminal quickly with saved shortcuts!
-  - the nav command uses a suffix alias to source files that contain the saved directory
+  - the nav command uses a suffix alias to source files that contain the saved directory path
 
 ## Creating a shortcut
 
-### Keyname Arguments
 
----
-
-the short, long, and plaintext options are interchangeable as argument names
-
-_-s | --save | save_
-
-- the "save" argument flag is optional if only passing the name for the new shortcut
-- the "save" argument flag is REQUIRED if also passing a path
-
-_-d | --delete | delete_
-
-- pass the name of the shortcut you wish to delete
-
-_-p | --path | path_
-
-- specify the path to be assigned to the new shortcut
-
-_-o | --open | open_
-
-- opens the nav-command directory in VS code
+Keyname Arguments
+  - the short, long, and plaintext argument names are interchangable
+| Command | Description |
+| :--- | :--- |
+| -s, --save, save [name] | Creates a new shortcut called [name].nav |
+| -d, --delete, delete [name] | Deletes the shortcut saved as [name].nav |
+| -p, --path, path [path] | Specifies the [path] to use for the new shortcut |
+| -h, --help, help | Displays command usage information |
+| -o, --open, open | Opens nav-command directory |
 
 ### Examples
 
@@ -43,6 +31,8 @@ nav -d oldShortcut
 
   #create a shortcut with a specified path
 nav --save newShortcut --path /This/new/file/path/
+-or-
+nav path /some/other/path anotherShortcut
 ```
 
 ## using a shortcut

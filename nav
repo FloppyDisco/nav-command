@@ -93,12 +93,10 @@ then
 fi
 
 
-# |------------------------------------|
-# |        Create Shortcut File        |
-# |------------------------------------|
+#   Save
+# --------
 
 # change logic to check if path starts with .
 # change logic to check if path starts with ~
-
 
 echo "cd $path" >> $files$shortcut.nav
