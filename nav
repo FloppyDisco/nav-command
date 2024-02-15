@@ -12,7 +12,6 @@ files=/Users/joshuapaul/01_code/04_scripts/nav-command/
 
 #   default values
 # ------------------
-
 path=`PWD`
 command="save"
 shortcut=""
