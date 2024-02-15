@@ -6,13 +6,12 @@
 #   Check that "files" = the filepath where nav-command is stored on your machine
 #    - it should start with your home folder and end in /nav-command/
 # ---------------------------------------------------------------------------------
-files=/Users/username/this/file/path/to/nav-command/
+files=/Users/joshuapaul/01_code/04_scripts/nav-command/
 # ---------------------------------------------------------------------------------
 
 
 #   default values
 # ------------------
-
 path=`PWD`
 command="save"
 shortcut=""
@@ -21,27 +20,43 @@ shortcut=""
 # |        Handle Args        |
 # |---------------------------|
 
+
+show_help() {
+    echo "Usage: nav [options?][name]"
+    echo "Options:"
+    echo " > -s | --save   | save   [name]  - Save shortcut [name]"
+    echo " > -d | --delete | delete [name]  - Delete shortcut [name]"
+    echo " > -p | --path   | path   [path]  - Set [filepath] for the shortcut"
+    echo " > -o | --open   | open           - Open nav-command directory"
+    echo " > -h | --help   | help           - Display help message"
+    echo
+    echo "if [name] is the only argument passed, the default is to save the shortcut [name] with path=PWD"
+}
 while [[ $# -gt 0 ]]
 do case $1 in
 
--o|--open|open)
+-o | --open | open)
 command="open"
-;;
+shift;;
 
--d|--delete|delete)
+-d | --delete | delete)
 command="delete"
 shortcut="$2"
-shift
-;;
+shift;;
 
--p|--path|path)
+-p | --path | path)
 path="$2"
-shift
-;;
+shift;;
 
--s|--save|save)
+-s | --save | save)
 shortcut="$2"
-shift
+shift;;
+
+-h | --help | help )
+show_help;;
+
+* )
+shortcut="$1"
 ;;
 
 *)
@@ -62,6 +77,8 @@ then
     rm $files$shortcut.nav
     echo "[nav] $shortcut deleted"
     exit
+  else
+    echo $shortcut does not exist
   fi
 fi
 
