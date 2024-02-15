@@ -7,7 +7,7 @@
 # ------------------------------------------------------
 #     /Users/user-name/some/filepath/to/nav-command/
 # ---------------------------------------------------------------------------------
-files=/Users/username/some/filepath/to/nav-command/
+files=/Users/joshuapaul/01_code/04_scripts/nav-command/
 # ---------------------------------------------------------------------------------
 
 
@@ -50,12 +50,16 @@ path="$2"
 shift;;
 
 -l | --list | list)
-command="list"
-shift;;
+  echo
+  echo "  here is a list of all your shortcuts"
+  echo "----------------------------------------"
+  ls -1 $files*.nav | xargs -n1 basename -s .nav | sed "s~^~=> ~"
+  exit 0;;
 
 -o | --open | open)
-command="open"
-shift;;
+  echo opening nav command...
+  code $files
+  exit 0;;
 
 -h | --help | help )
 show_help;;
@@ -82,19 +86,6 @@ if [[ $command == delete ]]; then
   fi
 fi
 
-#   open
-# --------
-
-if [[ $command == open ]]; then
-  echo opening nav command...
-  code $files
-  exit 0
-fi
-
-if [[ $command == list ]]; then
-  ls -1 "$path*(.nav)"
-  exit 0
-fi
 
 #   Save
 # --------
@@ -102,4 +93,4 @@ fi
 # change logic to check if path starts with .
 # change logic to check if path starts with ~
 
-echo "cd $path" >> $files$shortcut.nav
+echo "cd \"$path\"" >> $files$shortcut.nav
