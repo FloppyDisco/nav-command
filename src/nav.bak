@@ -3,11 +3,11 @@
 # |------------------------------------|
 
 
-#   verify files was succesfully set to your filepath
+#   verify files was succersfully set to your filepath
 # ------------------------------------------------------
 #     /Users/user-name/some/filepath/to/nav-command/
 # ---------------------------------------------------------------------------------
-files="/Users/joshuapaul/Code/BlueSteel/nav-command/"
+files=/Users/user-name/some/filepath/to/nav-command/
 # ---------------------------------------------------------------------------------
 
 
@@ -40,13 +40,14 @@ list_shortcuts() {
   local files_exist=0
   # Check if any shortcut files exist
   ls -1 $files*.nav >/dev/null 2>&1 || files_exist=1
+
   if [[ $files_exist -eq 0 ]]; then
     echo
     echo "  Here is a list of all your shortcuts:"
     echo "----------------------------------------"
     ls -1 $files*.nav | xargs -n1 basename -s .nav | sed "s~^~=> ~"
   else
-    echo "Nav shortcuts not found"
+    echo "No shortcuts found."
   fi
   exit 0
 }
@@ -108,4 +109,4 @@ fi
 # change logic to check if path starts with .
 # change logic to check if path starts with ~
 
-echo "cd \"$path\"" > $files$shortcut.nav
+echo "cd \"$path\"" >> $files$shortcut.nav
