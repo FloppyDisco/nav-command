@@ -1,5 +1,14 @@
 # NAV commandline tool
 
+
+- list all navigations
+```
+nav
+```
+
+- nav 
+
+
 issues/features
 
 - when updating a prexisting shortcut prompt user that they are about to overwrite a shortcut befor proceeding
