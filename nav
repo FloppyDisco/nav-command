@@ -47,10 +47,10 @@ nav(){
 
     -h | --help )
       echo "[nav]"
-      echo "Usage: nav [options][filepath][navigator]"
-      echo " *no options*   ⊣ Use [navigator]"
-      echo " -s|--save      ⊣ Save [navigator]"
-      echo " -d|--delete    ⊣ Delete [navigator]"
+      echo "Usage: nav [options][filepath][name]"
+      echo " *no options*   ⊣ Use [name]"
+      echo " -s|--save      ⊣ Save [name]"
+      echo " -d|--delete    ⊣ Delete [name]"
       echo " -p|--path      ⊣ Provide a custom [filepath] for the [navigator]"
       echo
       return
