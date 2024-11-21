@@ -1,8 +1,15 @@
-# |------------------------------------|
-# |        nav commandline tool        |
-# |------------------------------------|
+# |---------------------------|
+# |        Nav Command        |
+# |---------------------------|
 
+# alias specific to changing directories
+
+# may change this to save the navigators to a different location
 path_to_navigators=~/.navigators/
+
+
+#   nav()
+# ---------
 
 nav(){
 
@@ -25,21 +32,27 @@ nav(){
   while [[ "$#" -gt 0 ]]; do
     case $1 in
 
-    -d | --delete | delete)
+    -d | --delete )
       delete=true
       ;;
 
-    -s | --save | save)
+    -s | --save )
       save=true
       ;;
 
-    -p | --path | path)
+    -p | --path )
       new_navigation_path="$2"
       shift
       ;;
 
-    -h | --help | help)
-      show_help
+    -h | --help )
+      echo "[nav]"
+      echo "Usage: nav [options][filepath][navigator]"
+      echo " *no options*   ⊣ Use [navigator]"
+      echo " -s|--save      ⊣ Save [navigator]"
+      echo " -d|--delete    ⊣ Delete [navigator]"
+      echo " -p|--path      ⊣ Provide a custom [filepath] for the [navigator]"
+      echo
       return
       ;;
 
@@ -53,59 +66,59 @@ nav(){
 
   if [[ "$navigator" != "" ]]; then
 
-      # if file exists
+      # if the file exists
     if [ -f $path_to_navigators$navigator ]; then
 
       if [[ "$save" == true ]]; then
-        echo "[nav] $navigator already exists. Remove it with 'nav --delete $navigator'"
+        echo "[nav] '$navigator' already exists."
+        echo "Remove it with 'nav --delete $navigator'"
 
       elif [[ "$delete" == true ]]; then
+        # delete the navigator
         rm $path_to_navigators$navigator
-        echo "[nav] $navigator deleted"
+        echo "[nav] '$navigator' deleted."
 
-      else # use the file to do the thing!
+      else
+        # use the file to do the thing!
         source "$path_to_navigators$navigator"
       fi
 
-    else # file does not exist
+    else # the file does not exist
+
       if [[ "$save" == true ]]; then
+        # save the new navigator
         echo "cd \"$new_navigation_path\"" > "$path_to_navigators$navigator"
+
       else
-        echo "[nav] $navigator does not exist"
+        echo "[nav] '$navigator' does not exist."
         list_navigations=true
       fi
     fi
+
+  else # no navigator was provided
+
   fi
 
   if [[ "$list_navigations" == true ]]; then
-      # if navigations exist then
     if [ -n "$(find $path_to_navigators -type f -mindepth 1 -maxdepth 1 2>/dev/null)" ]; then
+      # if navigations exist
       echo
-      echo "[navigators]:"
-      echo "---------------"
+      echo "[nav]:"
+      echo "--------"
+      max_length=$(ls -1 "$path_to_navigators"* | xargs -n 1 basename | awk '{ if (length > max) max = length } END { print max }')
       ls -1 "$path_to_navigators"* | while read -r navigator; do
-          echo "[nav] $(basename "$navigator") => $(grep -o '^cd ".*"$' "$navigator" | sed 's/^cd "//; s/"$//')";
+        printf "↣ %-*s ⊣ %s\n" "$max_length" "$(basename "$navigator")" "$(sed 's/^cd "//; s/"$//' "$navigator")"
       done
       echo
     else
-      echo "No [nav] shortcuts found"
+      echo "No Navigators found."
     fi
   fi
 }
 
-show_help() {
-
-
-
-  # update this and the readme
-
-  echo "Usage: nav [options?][name]"
-  echo "options:"
-  echo " ⨳ -d|--delete|delete [name] - Delete shortcut [name]"
-  echo " ⨳ -p|--path  |path   [path] - Set [filepath] for the shortcut"
-  echo " ⨳ -l|--list  |list          - Lists all shortcuts"
-  echo " ⨳ -o|--open  |open          - Open nav-command directory"
-  echo " ⨳ -h|--help  |help          - Display help message"
-  echo
-  echo "if [name] is the only argument passed, the default is to save the shortcut [name] with path=PWD"
+#   autocomplete navigations
+# ----------------------------
+_nav_autocomplete() {
+    _values 'navigators' $(ls -1 "$path_to_navigators" 2>/dev/null | xargs -n 1 basename)
 }
+compdef _nav_autocomplete nav
