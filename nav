@@ -2,7 +2,7 @@
 # |        nav commandline tool        |
 # |------------------------------------|
 
-path_to_navigators = "~/.navigators/"
+path_to_navigators=~/.navigators/
 
 nav(){
 
@@ -18,11 +18,11 @@ nav(){
   save=false
   navigator=""
 
-  if [[ $# -eq 0 ]]; then
+  if [[ "$#" -eq 0 ]]; then
     list_navigations=true
   fi
 
-  while [[ $# -gt 0 ]]; do
+  while [[ "$#" -gt 0 ]]; do
     case $1 in
 
     -d | --delete | delete)
@@ -56,10 +56,10 @@ nav(){
       # if file exists
     if [ -f $path_to_navigators$navigator ]; then
 
-      if [[ "$save" ]]; then
+      if [[ "$save" == true ]]; then
         echo "[nav] $navigator already exists. Remove it with 'nav --delete $navigator'"
 
-      elif [[ "$delete" ]]; then
+      elif [[ "$delete" == true ]]; then
         rm $path_to_navigators$navigator
         echo "[nav] $navigator deleted"
 
@@ -68,10 +68,8 @@ nav(){
       fi
 
     else # file does not exist
-
-      if [[ "$save" ]]; then
+      if [[ "$save" == true ]]; then
         echo "cd \"$new_navigation_path\"" > "$path_to_navigators$navigator"
-
       else
         echo "[nav] $navigator does not exist"
         list_navigations=true
@@ -79,15 +77,16 @@ nav(){
     fi
   fi
 
-  if [[ "$list_navigations" ]]; then
-      # if navigations exist
+  if [[ "$list_navigations" == true ]]; then
+      # if navigations exist then
     if [ -n "$(find $path_to_navigators -type f -mindepth 1 -maxdepth 1 2>/dev/null)" ]; then
       echo
-      echo "[nav]"
+      echo "[navigators]:"
+      echo "---------------"
+      ls -1 "$path_to_navigators"* | while read -r navigator; do
+          echo "[nav] $(basename "$navigator") => $(grep -o '^cd ".*"$' "$navigator" | sed 's/^cd "//; s/"$//')";
+      done
       echo
-      echo "  Here is a list of all [nav] shortcuts:"
-      echo "------------------------------------------"
-      ls -1 $path_to_navigators* | sed "s~^~- [nav] ~"
     else
       echo "No [nav] shortcuts found"
     fi
@@ -95,6 +94,11 @@ nav(){
 }
 
 show_help() {
+
+
+
+  # update this and the readme
+
   echo "Usage: nav [options?][name]"
   echo "options:"
   echo " ⨳ -d|--delete|delete [name] - Delete shortcut [name]"
