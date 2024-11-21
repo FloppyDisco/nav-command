@@ -2,110 +2,106 @@
 # |        nav commandline tool        |
 # |------------------------------------|
 
+path_to_navigators = "~/.navigators/"
 
-#   verify files was succesfully set to your filepath
-# ------------------------------------------------------
-#     /Users/user-name/some/filepath/to/nav-command/
-# ---------------------------------------------------------------------------------
-files="/Users/joshuapaul/Code/BlueSteel/nav-command/"
-# ---------------------------------------------------------------------------------
+nav(){
 
+  if [[ ! -d "$path_to_navigators" ]]; then
+    mkdir -p "$path_to_navigators"
+  fi
 
-#   default values
-# ------------------
-path=`PWD`
-command="save"
-shortcut=""
+  #   default values
+  # ------------------
+  new_navigation_path=$(PWD)
+  list_navigations=false
+  delete=false
+  save=false
+  navigator=""
 
-# |---------------------------|
-# |        Handle Args        |
-# |---------------------------|
+  if [[ $# -eq 0 ]]; then
+    list_navigations=true
+  fi
 
+  while [[ $# -gt 0 ]]; do
+    case $1 in
+
+    -d | --delete | delete)
+      delete=true
+      ;;
+
+    -s | --save | save)
+      save=true
+      ;;
+
+    -p | --path | path)
+      new_navigation_path="$2"
+      shift
+      ;;
+
+    -h | --help | help)
+      show_help
+      return
+      ;;
+
+    *)
+      navigator="$1"
+      ;;
+
+    esac
+    shift
+  done
+
+  if [[ "$navigator" != "" ]]; then
+
+      # if file exists
+    if [ -f $path_to_navigators$navigator ]; then
+
+      if [[ "$save" ]]; then
+        echo "[nav] $navigator already exists. Remove it with 'nav --delete $navigator'"
+
+      elif [[ "$delete" ]]; then
+        rm $path_to_navigators$navigator
+        echo "[nav] $navigator deleted"
+
+      else # use the file to do the thing!
+        source "$path_to_navigators$navigator"
+      fi
+
+    else # file does not exist
+
+      if [[ "$save" ]]; then
+        echo "cd \"$new_navigation_path\"" > "$path_to_navigators$navigator"
+
+      else
+        echo "[nav] $navigator does not exist"
+        list_navigations=true
+      fi
+    fi
+  fi
+
+  if [[ "$list_navigations" ]]; then
+      # if navigations exist
+    if [ -n "$(find $path_to_navigators -type f -mindepth 1 -maxdepth 1 2>/dev/null)" ]; then
+      echo
+      echo "[nav]"
+      echo
+      echo "  Here is a list of all [nav] shortcuts:"
+      echo "------------------------------------------"
+      ls -1 $path_to_navigators* | sed "s~^~- [nav] ~"
+    else
+      echo "No [nav] shortcuts found"
+    fi
+  fi
+}
 
 show_help() {
-    echo "Usage: nav [options?][name]"
-    echo "options:"
-    echo " ⨳ -s|--save  |save   [name] - Save shortcut [name]"
-    echo " ⨳ -d|--delete|delete [name] - Delete shortcut [name]"
-    echo " ⨳ -p|--path  |path   [path] - Set [filepath] for the shortcut"
-    echo " ⨳ -l|--list  |list          - Lists all shortcuts"
-    echo " ⨳ -o|--open  |open          - Open nav-command directory"
-    echo " ⨳ -h|--help  |help          - Display help message"
-    echo
-    echo "if [name] is the only argument passed, the default is to save the shortcut [name] with path=PWD"
-    exit 0
+  echo "Usage: nav [options?][name]"
+  echo "options:"
+  echo " ⨳ -d|--delete|delete [name] - Delete shortcut [name]"
+  echo " ⨳ -p|--path  |path   [path] - Set [filepath] for the shortcut"
+  echo " ⨳ -l|--list  |list          - Lists all shortcuts"
+  echo " ⨳ -o|--open  |open          - Open nav-command directory"
+  echo " ⨳ -h|--help  |help          - Display help message"
+  echo
+  echo "if [name] is the only argument passed, the default is to save the shortcut [name] with path=PWD"
 }
-
-list_shortcuts() {
-  local files_exist=0
-  # Check if any shortcut files exist
-  ls -1 $files*.nav >/dev/null 2>&1 || files_exist=1
-  if [[ $files_exist -eq 0 ]]; then
-    echo
-    echo "  Here is a list of all your shortcuts:"
-    echo "----------------------------------------"
-    ls -1 $files*.nav | xargs -n1 basename -s .nav | sed "s~^~=> ~"
-  else
-    echo "Nav shortcuts not found"
-  fi
-  exit 0
-}
-
-
-while [[ $# -gt 0 ]]
-do case $1 in
-
--s | --save | save)
-shortcut="$2"
-shift;;
-
--d | --delete | delete)
-command="delete"
-shortcut="$2"
-shift;;
-
--p | --path | path)
-path="$2"
-shift;;
-
--l | --list | list)
-  list_shortcuts;;
-
--o | --open | open)
-  echo opening nav command...
-  code $files
-  exit 0;;
-
--h | --help | help )
-show_help;;
-
-* )
-shortcut="$1"
-;;
-
-esac
-shift
-done
-
-#   delete
-# ----------
-
-if [[ $command == delete ]]; then
-  if [ -f $files$shortcut.nav ]
-  then
-    rm $files$shortcut.nav
-    echo "[nav] $shortcut deleted"
-    exit 0
-  else
-    echo $shortcut does not exist
-  fi
-fi
-
-
-#   Save
-# --------
-
-# change logic to check if path starts with .
-# change logic to check if path starts with ~
-
-echo "cd \"$path\"" > $files$shortcut.nav
