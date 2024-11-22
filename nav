@@ -40,6 +40,10 @@ nav(){
       save=true
       ;;
 
+      # add a --rename to change the name of a navigator
+      # change the name with the cp command
+      # check for file conflicts and what not.
+
     -p | --path )
       if [[ ! -d "$2" ]]; then
         echo "[nav] '$2' Does not exist!"
