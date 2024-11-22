@@ -41,10 +41,10 @@ nav(){
       ;;
 
     -p | --path )
-
-      # test provided path
-      # before saving a file and wasting a name
-
+      if [[ ! -d "$2" ]]; then
+        echo "[nav] '$2' Does not exist!"
+        return
+      fi
       new_navigation_path="$2"
       shift
       ;;
