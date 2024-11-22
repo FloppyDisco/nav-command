@@ -41,6 +41,10 @@ nav(){
       ;;
 
     -p | --path )
+
+      # test provided path
+      # before saving a file and wasting a name
+
       new_navigation_path="$2"
       shift
       ;;
