@@ -85,7 +85,9 @@ nav(){
       ;;
 
     *)
-      navigator="$1"
+      if [[ "$navigator" == "" ]]; then
+        navigator="$1"
+      fi
       ;;
 
     esac
