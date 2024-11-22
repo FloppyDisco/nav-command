@@ -2,7 +2,7 @@
 # |        Nav Command        |
 # |---------------------------|
 
-# alias specific to changing directories
+# aliases specific to changing directories
 
 # may change this to save the navigators to a different location
 path_to_navigators=~/.navigators/
