@@ -40,9 +40,26 @@ nav(){
       save=true
       ;;
 
-      # add a --rename to change the name of a navigator
-      # change the name with the cp command
-      # check for file conflicts and what not.
+    -r | --rename )
+      local old_navigator=$2
+      local new_name=$3
+      if [ ! -f $path_to_navigators$old_navigator ]; then
+        echo "[nav] '$old_navigator' Does not exist!"
+        return 1
+      else
+        # old_navigator does exist
+        if [ -f $path_to_navigators$new_name ]; then
+          echo "[nav] '$new_name' already exists."
+          echo "----- Remove it with 'nav --delete $new_name'"
+          return 1
+        else
+          mv $path_to_navigators$old_navigator $path_to_navigators$new_name && \
+          echo "[nav] '$old_navigator' renamed to '$new_name'"
+          return 0
+        fi
+      fi
+      return 0
+      ;;
 
     -p | --path )
       local provided_path=$2:P
@@ -57,13 +74,14 @@ nav(){
 
     -h | --help )
       echo "[nav]"
-      echo "----- Usage: nav [options][filepath][name]"
-      echo " *no options*   ⊣ Use [name]"
-      echo " -s|--save      ⊣ Save [name]"
-      echo " -d|--delete    ⊣ Delete [name]"
-      echo " -p|--path      ⊣ Provide a custom [filepath] for the [navigator]"
+      echo "-----| Usage: nav [options][filepath][name]"
+      echo "-----| *no options*  ⊣ Use [name]"
+      echo "-----| -s|--save     ⊣ Save [name]"
+      echo "-----| -r|--rename   ⊣ Rename [name]"
+      echo "-----| -d|--delete   ⊣ Delete [name]"
+      echo "-----| -p|--path     ⊣ Provide a [filepath] for [name] when saving"
       echo
-      return
+      return 0
       ;;
 
     *)
@@ -172,11 +190,18 @@ _nav_autocomplete() {
   else
     #   Navigator
     # -------------
-
-    if [[ " ${other_args[@]} " == *" -s "* || " ${other_args[@]} " == *" --save "* || " ${other_args[@]} " == *" -p "* || " ${other_args[@]} " == *" --path "* ]]; then
-      # message user to provide a name for new navigator
+    if [[
+      " ${other_args[@]} " == *" -s "* ||
+      " ${other_args[@]} " == *" --save "* ||
+      " ${other_args[@]} " == *" -p "* ||
+      " ${other_args[@]} " == *" --path "* ||
+      "${words[$CURRENT-2]}" == "-r" ||
+      "${words[$CURRENT-2]}" == "--rename"
+    ]]; then
+      # providing a name for new navigator
+      return 0
     else
-      # show user saved navigators
+      # looking for an existing navigator
       if [ -n "$(find $path_to_navigators -type f -mindepth 1 -maxdepth 1 2>/dev/null)" ]; then
         _values 'navigators' $(ls -1 "$path_to_navigators" 2>/dev/null | xargs -n 1 basename)
       fi
