@@ -126,6 +126,13 @@ nav(){
 #   autocomplete navigations
 # ----------------------------
 _nav_autocomplete() {
+
+  # check if a flag is being written
+    # show flag options
+  # check if a filepath is being written
+    # show available directories
+
+
     _values 'navigators' $(ls -1 "$path_to_navigators" 2>/dev/null | xargs -n 1 basename)
 }
 compdef _nav_autocomplete nav
