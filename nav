@@ -4,8 +4,8 @@
 
 # aliases specific to changing directories
 
-# may change this to save the navigators to a different location
-path_to_navigators=~/.navigators/
+# change this to save the navigators in a different location
+path_to_navigators=~/.navigators/ # <= must end in "/"
 
 
 #   nav()
@@ -20,13 +20,13 @@ nav(){
   #   default values
   # ------------------
   new_navigation_path=$(PWD)
-  list_navigations=false
   delete=false
   save=false
   navigator=""
 
   if [[ "$#" -eq 0 ]]; then
-    list_navigations=true
+    list_navigations
+    return 0
   fi
 
   while [[ "$#" -gt 0 ]]; do
@@ -85,10 +85,13 @@ nav(){
         echo "[nav] '$navigator' deleted."
 
       else
-        # use the file to do the thing!
-        source "$path_to_navigators$navigator"
-      fi
 
+        #   use the file to do the thing!
+        # ---------------------------------
+        source "$path_to_navigators$navigator"
+        # ---------------------------------
+
+      fi
     else # the file does not exist
 
       if [[ "$save" == true ]]; then
@@ -97,33 +100,32 @@ nav(){
 
       else
         echo "[nav] '$navigator' does not exist."
-        list_navigations=true
+        list_navigations
+        return 0
       fi
     fi
 
-  else # no navigator was provided
-
-  fi
-
-  if [[ "$list_navigations" == true ]]; then
-    if [ -n "$(find $path_to_navigators -type f -mindepth 1 -maxdepth 1 2>/dev/null)" ]; then
-      # if navigations exist
-      echo
-      echo "[nav]:"
-      echo "------------"
-      max_length=$(ls -1 "$path_to_navigators"* | xargs -n 1 basename | awk '{ if (length > max) max = length } END { print max }')
-      ls -1 "$path_to_navigators"* | while read -r navigator; do
-        printf "↣ %-*s ⊣ %s\n" "$max_length" "$(basename "$navigator")" "$(sed 's/^cd "//; s/"$//' "$navigator")"
-      done
-      echo
-    else
-
-      # have this provide a blurb about saving a new navigator with --save
-      echo "[nav] No navigators found."
-      echo "----- Create a new navigator with 'nav --save [name]'"
-    fi
+  else
+    # no navigator was provided
   fi
 }
+
+list_navigations(){
+  # if navigators exist
+  if [ -n "$(find $path_to_navigators -type f -mindepth 1 -maxdepth 1 2>/dev/null)" ]; then
+    echo "[nav]:"
+    echo "------------"
+    max_length=$(ls -1 "$path_to_navigators"* | xargs -n 1 basename | awk '{ if (length > max) max = length } END { print max }')
+    ls -1 "$path_to_navigators"* | while read -r navigator; do
+      printf "↣ %-*s ⊣ %s\n" "$max_length" "$(basename "$navigator")" "$(sed 's/^cd "//; s/"$//' "$navigator")"
+    done
+    echo
+  else
+    echo "[nav] No navigators found."
+    echo "----- Create a new navigator with 'nav --save [name]'"
+  fi
+}
+
 
 #   autocomplete navigations
 # ----------------------------
@@ -154,12 +156,12 @@ _nav_autocomplete() {
         # if the flag is [--save]
         if [[ " ${other_args[@]} " == *" -p "* || " ${other_args[@]} " == *" --path "* ]]; then
           # [--path] option was already passed
-          return
+          return 0
         else
           _values 'options' '-p' '--path'
         fi
       else
-        return
+        return 0
       fi
     else
       _values 'options' "${all_options[@]}"
