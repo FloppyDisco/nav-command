@@ -45,12 +45,14 @@ nav(){
       # check for file conflicts and what not.
 
     -p | --path )
-      if [[ ! -d "$2" ]]; then
+      local provided_path=$2:P
+      if [[ ! -d $provided_path ]]; then
         echo "[nav] '$2' Does not exist!"
         return
+      else
+        new_navigation_path=$provided_path
+        shift
       fi
-      new_navigation_path="$2"
-      shift
       ;;
 
     -h | --help )
@@ -130,6 +132,55 @@ nav(){
 #   autocomplete navigations
 # ----------------------------
 _nav_autocomplete() {
-    _values 'navigators' $(ls -1 "$path_to_navigators" 2>/dev/null | xargs -n 1 basename)
+
+  local -a args=("${(@)words[2,-1]}")
+  local current_arg=${words[$CURRENT]}
+  local -a current_arg_array=($current_arg)
+  local -a other_args=(${args:|current_arg_array})
+
+  #   Entering a ...
+  # ------------------
+
+  if [[ "${words[$CURRENT-1]}" == "-p" || "${words[$CURRENT-1]}" == "--path" ]]; then
+    #   Filepath
+    # ------------
+    _directories
+
+  elif [[ "$current_arg" == -* ]]; then
+    #   Flag
+    # --------
+
+    local -a all_options=(-s --save -d --delete -p --path -h --help)
+    # if any args start with "-"
+    if [[ ${(M)other_args:#-*} ]]; then
+      # that arg is a flag
+      if [[ " ${other_args[@]} " == *" -s "* || " ${other_args[@]} " == *" --save "* ]]; then
+        # if the flag is [--save]
+        if [[ " ${other_args[@]} " == *" -p "* || " ${other_args[@]} " == *" --path "* ]]; then
+          # [--path] option was already passed
+          return
+        else
+          _values 'options' '-p' '--path'
+        fi
+      else
+        return
+      fi
+    else
+      _values 'options' "${all_options[@]}"
+    fi
+
+  else
+    #   Navigator
+    # -------------
+
+    if [[ " ${other_args[@]} " == *" -s "* || " ${other_args[@]} " == *" --save "* || " ${other_args[@]} " == *" -p "* || " ${other_args[@]} " == *" --path "* ]]; then
+      # message user to provide a name for new navigator
+    else
+      # show user saved navigators
+      if [ -n "$(find $path_to_navigators -type f -mindepth 1 -maxdepth 1 2>/dev/null)" ]; then
+        _values 'navigators' $(ls -1 "$path_to_navigators" 2>/dev/null | xargs -n 1 basename)
+      fi
+    fi
+  fi
 }
 compdef _nav_autocomplete nav
