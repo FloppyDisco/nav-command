@@ -25,12 +25,16 @@ Note: `[filepath]` must be the argument immediately after the `--path` option.
 ```
 nav [options] [filepath] [name]
 ```
-| Command            | Description                                |
-| :----------------- | :----------------------------------------- |
+| Command            | Description                                  |
+| :----------------- | :------------------------------------------- |
 | `-s` / `--save`    | Saves a new navigator as `[name]`            |
 | `-d` / `--delete`  | Deletes the navigator `[name]`               |
 | `-p` / `--path`    | Provide a `[filepath]` for the new navigator |
-| `-h` / `--help`    | Displays command usage information         |
+| `-h` / `--help`    | Displays command usage information           |
+
+
+### `nav` supports auto-completion in `zsh`! Start typing a navigator name and press (tab)
+
 
 ## Setup:
 
