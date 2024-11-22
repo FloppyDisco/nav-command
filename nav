@@ -41,12 +41,14 @@ nav(){
       ;;
 
     -p | --path )
-      if [[ ! -d "$2" ]]; then
+      local provided_path=$2:P
+      if [[ ! -d $provided_path ]]; then
         echo "[nav] '$2' Does not exist!"
         return
+      else
+        new_navigation_path=$provided_path
+        shift
       fi
-      new_navigation_path="$2"
-      shift
       ;;
 
     -h | --help )
