@@ -47,7 +47,7 @@ nav(){
 
     -h | --help )
       echo "[nav]"
-      echo "Usage: nav [options][filepath][name]"
+      echo "----- Usage: nav [options][filepath][name]"
       echo " *no options*   ⊣ Use [name]"
       echo " -s|--save      ⊣ Save [name]"
       echo " -d|--delete    ⊣ Delete [name]"
@@ -71,7 +71,7 @@ nav(){
 
       if [[ "$save" == true ]]; then
         echo "[nav] '$navigator' already exists."
-        echo "Remove it with 'nav --delete $navigator'"
+        echo "----- Remove it with 'nav --delete $navigator'"
 
       elif [[ "$delete" == true ]]; then
         # delete the navigator
@@ -104,14 +104,17 @@ nav(){
       # if navigations exist
       echo
       echo "[nav]:"
-      echo "--------"
+      echo "------------"
       max_length=$(ls -1 "$path_to_navigators"* | xargs -n 1 basename | awk '{ if (length > max) max = length } END { print max }')
       ls -1 "$path_to_navigators"* | while read -r navigator; do
         printf "↣ %-*s ⊣ %s\n" "$max_length" "$(basename "$navigator")" "$(sed 's/^cd "//; s/"$//' "$navigator")"
       done
       echo
     else
-      echo "No Navigators found."
+
+      # have this provide a blurb about saving a new navigator with --save
+      echo "[nav] No navigators found."
+      echo "----- Create a new navigator with 'nav --save [name]'"
     fi
   fi
 }
