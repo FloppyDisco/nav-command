@@ -111,6 +111,9 @@ nav(){
       done
       echo
     else
+
+      # have this provide a blurb about saving a new navigator with --save
+
       echo "No Navigators found."
     fi
   fi
