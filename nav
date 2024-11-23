@@ -1,15 +1,13 @@
 # |---------------------------|
 # |        Nav Command        |
 # |---------------------------|
+# aliases for changing directories
 
-# aliases specific to changing directories
+#   change this to save the navigators in a different location
+# --------------------------------------------------------------
+local path_to_navigators="$HOME/.navigators/" # <= must end in "/"
+# --------------------------------------------------------------
 
-# change this to save the navigators in a different location
-path_to_navigators=~/.navigators/ # <= must end in "/"
-
-
-#   nav()
-# ---------
 
 nav(){
 
@@ -17,12 +15,28 @@ nav(){
     mkdir -p "$path_to_navigators"
   fi
 
+  local list_navigations(){
+    # if navigators exist
+    if [ -n "$(find $path_to_navigators -type f -mindepth 1 -maxdepth 1 2>/dev/null)" ]; then
+      echo "[nav]:"
+      echo "------------"
+      max_length=$(ls -1 "$path_to_navigators"* | xargs -n 1 basename | awk '{ if (length > max) max = length } END { print max }')
+      ls -1 "$path_to_navigators"* | while read -r navigator; do
+        printf "↣ %-*s ⊣ %s\n" "$max_length" "$(basename "$navigator")" "$(sed 's/^cd "//; s/"$//' "$navigator")"
+      done
+      echo
+    else
+      echo "[nav] No navigators found."
+      echo "----- Create a new navigator with 'nav --save [name]'"
+    fi
+  }
+
   #   default values
   # ------------------
-  new_navigation_path=$(PWD)
-  delete=false
-  save=false
-  navigator=""
+  local new_navigation_path=$(PWD)
+  local delete=false
+  local save=false
+  local navigator=""
 
   if [[ "$#" -eq 0 ]]; then
     list_navigations
@@ -134,22 +148,6 @@ nav(){
   fi
 }
 
-list_navigations(){
-  # if navigators exist
-  if [ -n "$(find $path_to_navigators -type f -mindepth 1 -maxdepth 1 2>/dev/null)" ]; then
-    echo "[nav]:"
-    echo "------------"
-    max_length=$(ls -1 "$path_to_navigators"* | xargs -n 1 basename | awk '{ if (length > max) max = length } END { print max }')
-    ls -1 "$path_to_navigators"* | while read -r navigator; do
-      printf "↣ %-*s ⊣ %s\n" "$max_length" "$(basename "$navigator")" "$(sed 's/^cd "//; s/"$//' "$navigator")"
-    done
-    echo
-  else
-    echo "[nav] No navigators found."
-    echo "----- Create a new navigator with 'nav --save [name]'"
-  fi
-}
-
 
 #   autocomplete navigations
 # ----------------------------
@@ -212,4 +210,5 @@ _nav_autocomplete() {
     fi
   fi
 }
+
 compdef _nav_autocomplete nav
