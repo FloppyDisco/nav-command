@@ -158,9 +158,6 @@ _nav_autocomplete() {
   local -a current_arg_array=($current_arg)
   local -a other_args=(${args:|current_arg_array})
 
-  #   Entering a ...
-  # ------------------
-
   if [[ "${words[$CURRENT-1]}" == "-p" || "${words[$CURRENT-1]}" == "--path" ]]; then
     #   Filepath
     # ------------

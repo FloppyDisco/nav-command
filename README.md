@@ -53,6 +53,6 @@ Start typing a navigator `[name]` and press **(Tab)**!
 #### For ZSH:
 ```
 git clone https://github.com/FloppyDisco/nav-command
-echo "source $PWD/nav-command/nav" >> ~/.zshrc
+echo "source $PWD/nav-command/nav.sh" >> ~/.zshrc
 source ~/.zshrc
 ```
